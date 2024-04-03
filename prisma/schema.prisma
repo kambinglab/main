@@ -57,6 +57,7 @@ model User {
 }
 
 model UserProfile {
+  id         String       @id @default(cuid())
   npm        String
   faculty    String
   name       String
@@ -81,13 +82,11 @@ model Accusation {
   id                 String               @id @default(cuid())
   accused_profile_id String
   accuser_user_id    String
-  title              String
-  content_html       String
-  content_text       String
+  content            String
   created_at         DateTime             @default(now())
   updated_at         DateTime             @updatedAt
   deleted_at         DateTime?
-  accused_profile    UserProfile          @relation(fields: [accused_profile_id], references: [user_id])
+  accused_profile    UserProfile          @relation(fields: [accused_profile_id], references: [id])
   accuser_user       User                 @relation(fields: [accuser_user_id], references: [id])
   is_deleted         Boolean              @default(false)
   AccusationResponse AccusationResponse[]
@@ -97,8 +96,7 @@ model AccusationResponse {
   id            String     @id @default(cuid())
   accusation_id String
   user_id       String
-  content_html  String
-  content_text  String
+  content       String
   created_at    DateTime   @default(now())
   updated_at    DateTime   @updatedAt
   accusation    Accusation @relation(fields: [accusation_id], references: [id])
