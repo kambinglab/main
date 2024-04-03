@@ -1,0 +1,106 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id                 String               @id @default(cuid())
+  name               String?
+  email              String?              @unique
+  emailVerified      DateTime?
+  image              String?
+  accounts           Account[]
+  sessions           Session[]
+  sso_id             String               @unique
+  org_code           String?
+  npm                String?
+  profile            UserProfile?
+  Accusation         Accusation[]
+  AccusationResponse AccusationResponse[]
+}
+
+model UserProfile {
+  npm        String
+  faculty    String
+  name       String
+  program    String
+  major      String
+  user       User?        @relation(fields: [user_id], references: [id])
+  user_id    String?      @unique
+  Accusation Accusation[]
+
+  @@unique([npm, program])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Accusation {
+  id                 String               @id @default(cuid())
+  accused_profile_id String
+  accuser_user_id    String
+  title              String
+  content_html       String
+  content_text       String
+  created_at         DateTime             @default(now())
+  updated_at         DateTime             @updatedAt
+  deleted_at         DateTime?
+  accused_profile    UserProfile          @relation(fields: [accused_profile_id], references: [user_id])
+  accuser_user       User                 @relation(fields: [accuser_user_id], references: [id])
+  is_deleted         Boolean              @default(false)
+  AccusationResponse AccusationResponse[]
+}
+
+model AccusationResponse {
+  id            String     @id @default(cuid())
+  accusation_id String
+  user_id       String
+  content_html  String
+  content_text  String
+  created_at    DateTime   @default(now())
+  updated_at    DateTime   @updatedAt
+  accusation    Accusation @relation(fields: [accusation_id], references: [id])
+  user          User       @relation(fields: [user_id], references: [id])
+}

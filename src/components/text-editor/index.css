@@ -1,0 +1,51 @@
+.quill {
+  position: relative;
+  display: flex;
+  flex-direction: column-reverse;
+  padding: 1rem;
+  gap: 0.25rem;
+}
+.quill.sm {
+  padding: 0.5rem 1rem;
+  gap: 0.125rem;
+}
+.quill .ql-container.ql-snow {
+  font-family: inherit;
+  font-size: 1rem;
+  height: 100%;
+  margin: 0px;
+  position: relative;
+  border: none;
+}
+.quill.sm .ql-container.ql-snow {
+  font-size: 0.875rem;
+}
+.quill .ql-editor {
+  font-size: 1rem;
+  min-height: 4rem;
+  padding: 0.5rem 0;
+}
+.quill.sm .ql-editor {
+  min-height: 2rem;
+  padding: 0.25rem 0;
+}
+.quill .ql-toolbar.ql-snow {
+  padding: 0;
+  border: none;
+  display: none;
+}
+.quill.focus .ql-toolbar.ql-snow {
+  display: block;
+}
+.quill .ql-toolbar.ql-snow .ql-formats {
+  margin-right: 0;
+  vertical-align: middle;
+  align-items: stretch;
+  @apply border rounded-xl gap-4 flex p-2;
+}
+.quill.sm .ql-toolbar.ql-snow .ql-formats {
+  @apply gap-2 p-1;
+}
+.ql-editor.ql-blank::before {
+  left: 0;
+}

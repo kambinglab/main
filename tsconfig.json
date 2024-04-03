@@ -18,6 +18,10 @@
       }
     ],
     "paths": {
+      "@images/*": ["./public/images/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@components/*": ["./src/components/*"],
+      "@utils/*": ["./src/utils/*"],
       "@/*": ["./src/*"]
     }
   },
