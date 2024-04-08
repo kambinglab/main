@@ -7,8 +7,8 @@ import { Toaster } from "react-hot-toast";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "GetMatil 💀💀💀",
-  description: "GetMatil 💀💀💀",
+  title: "UI Baku Hantam 😈",
+  description: "UI Baku Hantam 😈",
 };
 
 export default async function RootLayout({

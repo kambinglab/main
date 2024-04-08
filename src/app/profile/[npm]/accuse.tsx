@@ -67,7 +67,7 @@ const Accuse: FC<Props> = ({ user, profile }) => {
   if (!showForm)
     return (
       <button className="btn btn-sm btn-warning" onClick={handleClick}>
-        Laporkan matil 🙀
+        Mulai Baku Hantam 😈
       </button>
     );
   if (!user) return null;

@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Accuse from "./accuse";
 import { auth } from "@utils/auth";
-import { QuillDeltaToHtmlConverter } from "quill-delta-to-html";
+import AccusationCard from "./accusation";
 
 async function getProfiles(npm: string) {
   const profile = await prisma.userProfile.findMany({
@@ -66,27 +66,10 @@ export default async function Page({
             </div>
             <div className="mt-4 flex flex-col gap-4">
               {profile.Accusation.map((accusation) => (
-                <div key={accusation.id} className="border p-4 rounded-lg">
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: new QuillDeltaToHtmlConverter(
-                        JSON.parse(accusation.content).ops,
-                        {}
-                      ).convert(),
-                    }}
-                  />
-                  {accusation.AccusationResponse.map((response) => (
-                    <div
-                      key={response.id}
-                      className="border p-4 rounded-lg mt-4"
-                    >
-                      <div />
-                    </div>
-                  ))}
-                </div>
+                <AccusationCard key={accusation.id} accusation={accusation} />
               ))}
               {profile.Accusation.length === 0 && (
-                <p className="">Belum ada tuduhan matil 👍</p>
+                <p className="">Belum ada keributan 👍</p>
               )}
             </div>
           </div>

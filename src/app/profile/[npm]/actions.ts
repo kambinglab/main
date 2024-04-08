@@ -35,8 +35,6 @@ export async function accuse(_: any, formData: FormData) {
     };
   }
 
-  console.log(validatedFields.data);
-
   try {
     const accusation = await prisma.accusation.create({
       data: {

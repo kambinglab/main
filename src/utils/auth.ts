@@ -32,7 +32,6 @@ export const config = {
         ticket: { label: "Ticket", type: "text" },
       },
       async authorize(credentials, req) {
-        console.log("credentials", credentials);
         if (!credentials) throw new Error("No credentials provided");
         const validateUrl = new URL(CAS_VALIDATE_URL);
         validateUrl.searchParams.set("service", CAS_SERVICE_URL);
@@ -41,7 +40,6 @@ export const config = {
         if (status !== 200) throw new Error("Failed to validate ticket");
         const xml = await parseStringPromise(data);
         const serviceResponse = xml["cas:serviceResponse"];
-        console.log("🚀 ~ authorize ~ serviceResponse:", serviceResponse);
         const authenticationSuccess =
           serviceResponse["cas:authenticationSuccess"];
         if (!authenticationSuccess)
@@ -82,7 +80,6 @@ export const config = {
       return session;
     },
     async signIn({ user, account, profile, email, credentials }) {
-      console.log("signIn", user);
       if (user) {
         const sessionToken = generateSessionToken();
         const sessionExpires = fromDate(60 * 60 * 24 * 7);
